@@ -1,3 +1,4 @@
+import pandas as pd
 import streamlit as st
 
 from clear_file import BaseClearDataFile
@@ -8,4 +9,6 @@ if data is not None:
     file = data.getvalue().decode("utf-8").split("\n")
     base = BaseClearDataFile(file_data=file)
 
-    st.write([m.__dict__ for m in base.messages])
+    df = pd.DataFrame([m.__dict__ for m in base.messages])
+
+    st.write(df)
