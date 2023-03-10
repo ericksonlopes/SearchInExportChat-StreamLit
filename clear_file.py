@@ -64,7 +64,14 @@ class BaseClearDataFile:
 
 
 if __name__ == '__main__':
-    x = open('../tests/test_file_folder/test_group.txt', 'r')
-    file = BaseClearDataFile(file_data=x)
-    print(file.messages)
-    print(file.info_messages)
+    import pandas as pd
+    x = open('test_group.txt', 'r')
+    base = BaseClearDataFile(file_data=x)
+
+    df_messages = pd.DataFrame([m.__dict__ for m in base.messages])
+
+    df_messages['date'] = pd.to_datetime(df_messages['date'])
+
+    df_messages["newdate"] = df_messages.apply(lambda x: x['date'].date(), axis=1)
+
+    print(df_messages.columns)
