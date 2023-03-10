@@ -22,3 +22,7 @@ st.write(df_messages)
 st.title('Info Messages')
 df_info_messages = pd.DataFrame([m.__dict__ for m in base.info_messages])
 st.write(df_info_messages)
+
+st.title('Quantidade de mensagens por dia')
+df_messages['date'] = pd.to_datetime(df_messages['date'])
+df_soma = df_messages.groupby('data')['message'].sum().reset_index()
