@@ -16,11 +16,11 @@ base = BaseClearDataFile(file_data=file)
 
 st.title('Messages')
 df_messages = pd.DataFrame([m.__dict__ for m in base.messages])
-st.write(df_messages)
+st.write(df_messages, use_container_width=True)
 
 st.title('Info Messages')
 df_info_messages = pd.DataFrame([m.__dict__ for m in base.info_messages])
-st.write(df_info_messages)
+st.write(df_info_messages, use_container_width=True)
 
 st.title('Quantidade de mensagens por dia')
 # Transforma a coluna date em datetime
