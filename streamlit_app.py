@@ -34,4 +34,4 @@ df_soma = df_messages.groupby('newdate')['message'].count().reset_index()
 # Renomeia as colunas
 df_soma.rename(columns={'newdate': 'Data', 'message': 'Quantidade de mensagens'}, inplace=True)
 # Cria o gráfico
-st.line_chart(df_soma, x='Data', y='Quantidade de mensagens', use_container_width=True)
+st.bar_chart(df_soma, x='Data', y='Quantidade de mensagens', use_container_width=True)
