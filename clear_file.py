@@ -2,6 +2,8 @@ import re
 from datetime import datetime
 from typing import List
 
+from loguru import logger
+
 from models import MessageModel, InfoMessageModel
 
 
@@ -53,7 +55,11 @@ class BaseClearDataFile:
 
                 self.messages[-1].concatenate(f" {' '.join(line.split())}")
 
+                logger.info(f"line: {line}")
+
+            logger.info(f"messages len: {len(self.messages)}")
         except Exception as error:
+            logger.error(f"Error in __read_file: {error}")
             raise error
 
 

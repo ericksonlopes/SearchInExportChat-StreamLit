@@ -16,9 +16,9 @@ base = BaseClearDataFile(file_data=file)
 
 # show dataframes
 st.title('Messages')
-df = pd.DataFrame([m.__dict__ for m in base.messages])
-st.write(df)
+df_messages = pd.DataFrame([m.__dict__ for m in base.messages])
+st.write(df_messages)
 
 st.title('Info Messages')
-df = pd.DataFrame([m.__dict__ for m in base.info_messages])
-st.write(df)
+df_info_messages = pd.DataFrame([m.__dict__ for m in base.info_messages])
+st.write(df_info_messages)
