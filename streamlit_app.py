@@ -26,3 +26,6 @@ st.write(df_info_messages)
 st.title('Quantidade de mensagens por dia')
 df_messages['date'] = pd.to_datetime(df_messages['date'])
 df_soma = df_messages.groupby('date')['message'].sum().reset_index()
+
+st.dataframe(df_soma)
+st.line_chart(df_soma, x='date', y='message')
