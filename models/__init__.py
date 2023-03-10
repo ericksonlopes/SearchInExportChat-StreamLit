@@ -1,0 +1,4 @@
+from models.InfoMessageModel import InfoMessageModel
+from models.MessageModel import MessageModel
+from models.NumberOfMessagesModel import NumberOfMessagesModel
+from models.PhoneLinksModel import PhoneLinksModel
