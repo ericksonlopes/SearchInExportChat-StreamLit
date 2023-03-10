@@ -32,5 +32,5 @@ df_messages['newdate'] = pd.to_datetime(df_messages['newdate'])
 # Cria um novo dataframe com a soma das mensagens por dia
 df_soma = df_messages.groupby('newdate')['message'].count().reset_index()
 # Mostra o gráfico
-st.dataframe(df_soma)
-st.line_chart(df_soma, x='newdate', y='message')
+# st.dataframe(df_soma)
+st.line_chart(df_soma, x='newdate', y='message', xaxis_name='Data', yaxis_name='Quantidade de mensagens')
