@@ -9,6 +9,10 @@ if data is not None:
     file = data.getvalue().decode("utf-8").split("\n")
     base = BaseClearDataFile(file_data=file)
 
+    st.title('Messages')
     df = pd.DataFrame([m.__dict__ for m in base.messages])
+    st.write(df)
 
+    st.title('Info Messages')
+    df = pd.DataFrame([m.__dict__ for m in base.info_messages])
     st.write(df)
