@@ -3,8 +3,6 @@ import re
 from datetime import datetime
 from typing import List
 
-from loguru import logger
-
 from models import MessageModel, InfoMessageModel
 
 
@@ -56,7 +54,6 @@ class BaseClearDataFile:
     def __verify_if_file_exists(self) -> None:
         """verify if file exists"""
         if not os.path.exists(self.__path_file):
-            logger.warning(f'File {self.__path_file} not found')
             raise FileNotFoundError(f'File {self.__path_file} not found')
 
     def __open_file(self) -> List[str]:
@@ -92,10 +89,8 @@ class BaseClearDataFile:
                     continue
 
                 self.messages[-1].concatenate(f" {' '.join(line.split())}")
-                logger.info(f'Successfully read {self.__path_file}')
 
         except Exception as error:
-            logger.error(error)
             raise error
 
 
