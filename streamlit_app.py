@@ -33,4 +33,4 @@ df_messages['newdate'] = pd.to_datetime(df_messages['newdate'])
 df_soma = df_messages.groupby('newdate')['message'].count().reset_index()
 # Mostra o gráfico
 # st.dataframe(df_soma)
-st.line_chart(df_soma, x='newdate', y='message', xaxis_name='Data', yaxis_name='Quantidade de mensagens')
+st.line_chart(df_soma, x='newdate', y='message', use_container_width=True)
