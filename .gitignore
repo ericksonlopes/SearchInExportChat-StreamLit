@@ -2,7 +2,7 @@
 __pycache__/
 *.py[cod]
 *$py.class
-
+test_group.txt
 # C extensions
 *.so
 
