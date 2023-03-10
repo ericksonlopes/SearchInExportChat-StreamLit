@@ -5,7 +5,7 @@ __pycache__/
 test_group.txt
 # C extensions
 *.so
-
+python.txt
 # Distribution / packaging
 .Python
 build/

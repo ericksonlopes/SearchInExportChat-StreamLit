@@ -74,4 +74,4 @@ if __name__ == '__main__':
 
     df_messages["newdate"] = df_messages.apply(lambda x: x['date'].date(), axis=1)
 
-    print(df_messages.columns)
+    print(df_messages['newdate'].groupby(df_messages['newdate']).count())
