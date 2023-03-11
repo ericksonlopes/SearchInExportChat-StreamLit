@@ -4,7 +4,7 @@ from typing import List
 
 from loguru import logger
 
-from models import MessageModel, InfoMessageModel
+from src.models import MessageModel, InfoMessageModel
 
 
 class BaseClearDataFile:
@@ -65,7 +65,7 @@ class BaseClearDataFile:
 
 if __name__ == '__main__':
     import pandas as pd
-    x = open('test_group.txt', 'r')
+    x = open('../python.txt', 'r', encoding='utf-8').read().split('\n')
     base = BaseClearDataFile(file_data=x)
 
     df_messages = pd.DataFrame([m.__dict__ for m in base.messages])
