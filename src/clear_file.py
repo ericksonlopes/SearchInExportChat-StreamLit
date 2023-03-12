@@ -55,23 +55,7 @@ class BaseClearDataFile:
 
                 self.messages[-1].concatenate(f" {' '.join(line.split())}")
 
-                logger.info(f"line: {line}")
-
             logger.info(f"messages len: {len(self.messages)}")
         except Exception as error:
             logger.error(f"Error in __read_file: {error}")
             raise error
-
-
-if __name__ == '__main__':
-    import pandas as pd
-    x = open('../python.txt', 'r', encoding='utf-8').read().split('\n')
-    base = BaseClearDataFile(file_data=x)
-
-    df_messages = pd.DataFrame([m.__dict__ for m in base.messages])
-
-    df_messages['date'] = pd.to_datetime(df_messages['date'])
-
-    df_messages["newdate"] = df_messages.apply(lambda x: x['date'].date(), axis=1)
-
-    print(df_messages['newdate'].groupby(df_messages['newdate']).count())
