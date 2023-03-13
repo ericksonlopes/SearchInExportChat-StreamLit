@@ -2,7 +2,7 @@ import pandas as pd
 import plotly.express as px
 import streamlit as st
 
-from src import BaseClearDataFile
+from src.clear_file import BaseClearDataFile
 
 st.set_page_config(page_title='WhatsApp Analyzer', page_icon='📊', layout='wide', initial_sidebar_state='auto')
 data = st.file_uploader('Escolha o arquivo para analise de dados', type=['txt'])
