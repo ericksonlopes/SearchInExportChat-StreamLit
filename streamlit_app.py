@@ -1,5 +1,8 @@
+import base64
+
 import plotly.express as px
 import streamlit as st
+from matplotlib import pyplot as plt
 
 from src.stream_lit import SearchWhatsappStreamlit
 
@@ -7,6 +10,7 @@ st.set_page_config(page_title='WhatsApp Analyzer',
                    page_icon='📊',
                    layout='wide',
                    initial_sidebar_state='auto')
+st.set_option('deprecation.showPyplotGlobalUse', False)
 
 st.title('WhatsApp Analyzer')
 
@@ -104,7 +108,7 @@ st.plotly_chart(figure, use_container_width=True)
 # ====================================================================================================
 
 st.title('Quantidade de mensagens por pessoa')
-st.subheader('Total de numeros de telefone: {}'.format(len(swsl.df_info_messages)))
+st.subheader('Total de numeros de telefone: {}'.format(swsl.amount_of_numbers))
 
 df_rating_person = swsl.get_message_rating_by_person()
 
@@ -112,3 +116,9 @@ c = px.bar(df_rating_person, x='Pessoa', y='Quantidade de mensagens')
 st.plotly_chart(c, use_container_width=True)
 
 # ====================================================================================================
+st.title('Word Cloud')
+st.subheader('Palavras mais utilizadas na conversa.')
+wordcloud = swsl.generate_word_cloud(swsl.df_messages, 'message')
+plt.imshow(wordcloud, interpolation='bilinear')
+plt.axis("off")
+st.pyplot()
