@@ -62,8 +62,12 @@ if numbers:
 if init_date and end_date:
     df_filter['date'] = pd.to_datetime(df_filter['date'])
 
-    df_filter = df_filter.loc[(df_filter['date'] >= init_date.strftime('%d/%m/%Y')) &
-                              (df_filter['date'] <= end_date.strftime('%d/%m/%Y'))]
+    df_filter = df_filter[
+        (df_filter['date'] >= init_date.strftime('%Y-%m-%d')) &
+        (df_filter['date'] <= end_date.strftime('%Y-%m-%d'))
+        ]
+
+    qtd_filter = len(df_filter)
 
 col1, col2, col3 = st.columns(3)
 col1.metric("Total de mensagens", qtd_filter)
