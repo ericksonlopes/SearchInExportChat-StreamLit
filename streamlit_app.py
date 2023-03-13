@@ -1,5 +1,3 @@
-import base64
-
 import plotly.express as px
 import streamlit as st
 from matplotlib import pyplot as plt
@@ -19,7 +17,7 @@ Projeto desenvolvido para analise de dados do WhatsApp
 
 
 ### Desenvolvido por:
-> - [![GitHub](https://img.shields.io/badge/-Erickson%20Lopes-181717?&logo=GitHub&logoColor=FFFFFF)](https://github.com/ericksonlopes/ericksonlopes)
+> - [![GitHub](https://img.shields.io/badge/-Erickson%20Lopes-181717?&logo=GitHub&logoColor=FFFFFF)](https://github.com/ericksonlopes/)
 [![Linkedin](https://img.shields.io/badge/-Erickson%20Lopes-0A66C2?&logo=Linkedin&logoColor=FFFFFF)](https://www.linkedin.com/in/ericksonlopes/)
 
 ### Tecnologias utilizadas:
@@ -118,7 +116,13 @@ st.plotly_chart(c, use_container_width=True)
 # ====================================================================================================
 st.title('Word Cloud')
 st.subheader('Palavras mais utilizadas na conversa.')
+
 wordcloud = swsl.generate_word_cloud(swsl.df_messages, 'message')
+
+if wordcloud is None:
+    st.warning('O Grafico esta sendo gerado')
+    st.stop()
+
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 st.pyplot()
