@@ -4,12 +4,32 @@ import streamlit as st
 from src.stream_lit import SearchWhatsappStreamlit
 
 st.set_page_config(page_title='WhatsApp Analyzer', page_icon='📊', layout='wide', initial_sidebar_state='auto')
+
+st.title('WhatsApp Analyzer')
+
+st.markdown('''
+Projeto desenvolvido para analise de dados do WhatsApp
+
+
+### Desenvolvido por:
+> - [![GitHub](https://img.shields.io/badge/-Erickson%20Lopes-181717?&logo=GitHub&logoColor=FFFFFF)](https://github.com/ericksonlopes/ericksonlopes)
+[![Linkedin](https://img.shields.io/badge/-Erickson%20Lopes-0A66C2?&logo=Linkedin&logoColor=FFFFFF)](https://www.linkedin.com/in/ericksonlopes/)
+
+### Tecnologias utilizadas:
+
+> - ![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?&logo=Streamlit&logoColor=FFFFFF)
+![Pandas](https://img.shields.io/badge/-Pandas-150458?&logo=Pandas&logoColor=FFFFFF)
+![Plotly](https://img.shields.io/badge/-Plotly-239120?&logo=Plotly&logoColor=FFFFFF)
+
+''')
 data = st.file_uploader('Escolha o arquivo para analise de dados', type=['txt'])
 
 if data is None:
+    st.warning('Por favor, escolha um arquivo para analise de dados')
     st.stop()
 
 swsl = SearchWhatsappStreamlit(file_data=data)
+st.info('Arquivo carregado com sucesso')
 
 # ====================================================================================================
 st.title('Informações do arquivo')
