@@ -3,7 +3,11 @@ import streamlit as st
 
 from src.stream_lit import SearchWhatsappStreamlit
 
-st.set_page_config(page_title='WhatsApp Analyzer', page_icon='📊', layout='wide', initial_sidebar_state='auto')
+st.set_page_config(page_title='WhatsApp Analyzer',
+                   page_icon='📊',
+                   layout='wide',
+                   initial_sidebar_state='auto',
+                   theme='dark')
 
 st.title('WhatsApp Analyzer')
 
