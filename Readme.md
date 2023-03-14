@@ -1,15 +1,82 @@
-Esta aplicação utiliza a biblioteca Streamlit para criar uma interface gráfica que permite a análise de dados do WhatsApp. As principais funcionalidades da aplicação são:
+![Python](https://img.shields.io/badge/-Python-3776AB?&logo=Python&logoColor=FFFFFF)
+![Pandas](https://img.shields.io/badge/-Pandas-150458?&logo=Pandas&logoColor=FFFFFF)
+![Streamlit](https://img.shields.io/badge/-Streamlit-FF4B4B?&logo=Streamlit&logoColor=FFFFFF)
+![Plotly](https://img.shields.io/badge/-Plotly-239120?&logo=Plotly&logoColor=FFFFFF)
+![Matplotlib](https://img.shields.io/badge/-Matplotlib-3776AB?&logo=Matplotlib&logoColor=FFFFFF)
 
-Carregamento de arquivo: A aplicação permite ao usuário escolher um arquivo no formato TXT com os dados do WhatsApp para análise.
+# Análise de dados do WhatsApp
 
-Informações do arquivo: A aplicação exibe algumas informações sobre o arquivo selecionado, como o número total de mensagens, o número total de mídias enviadas e o número total de participantes.
+## Upload de arquivo
 
-Pesquisa de mensagens: A aplicação permite ao usuário pesquisar por texto em todas as mensagens, filtrar por contato e período específico. Os resultados são exibidos em uma tabela e em um gráfico de barras.
+Para utilizar a aplicação, é necessário fazer o upload de um arquivo de texto contendo o histórico de mensagens do
+WhatsApp. Para isso, clique no botão "Escolha o arquivo para análise de dados" e selecione o arquivo desejado.
 
-Mensagens do sistema: A aplicação exibe as mensagens do sistema, como as notificações de entrada ou saída de um participante.
+## Informações do arquivo
 
-Quantidade de mensagens por dia: A aplicação exibe a quantidade de mensagens por dia, a média de mensagens por dia, semana e mês, além do dia com mais e menos mensagens. Os resultados são exibidos em uma tabela e em um gráfico de barras.
+Nesta seção, são apresentadas informações gerais sobre o arquivo de texto. São elas:
 
-Quantidade de mensagens por pessoa: A aplicação exibe a quantidade de mensagens por pessoa em uma tabela e em um gráfico de barras.
+**Total de mensagens**: quantidade total de mensagens no arquivo;
 
-Além disso, a aplicação também exibe informações sobre as tecnologias utilizadas no projeto e informações de contato do desenvolvedor. As principais bibliotecas utilizadas são Streamlit, Pandas e Plotly.
+**Total de mídias enviadas**: quantidade total de mídias enviadas (imagens, áudios, vídeos, etc.);
+
+**Total de participantes**: quantidade total de participantes que enviaram mensagens no grupo;
+
+**Primeira mensagem**: data e hora da primeira mensagem do arquivo;
+
+**Última mensagem**: data e hora da última mensagem do arquivo.
+
+## Análise de mensagens
+
+Nesta seção, é possível fazer uma análise mais detalhada das mensagens do arquivo. Para isso, é possível aplicar filtros
+para buscar mensagens específicas. Os filtros disponíveis são:
+
+**Pesquisar texto**: busca mensagens que contenham o texto informado;
+
+**Pesquisar por contato**: busca mensagens de contatos específicos;
+
+**Data inicial**: busca mensagens a partir da data informada;
+
+**Data final**: busca mensagens até a data informada.
+
+Após aplicar os filtros desejados, são apresentadas as seguintes informações:
+
+**Total de mensagens**: quantidade de mensagens que atendem aos filtros aplicados;
+
+**Data inicial**: data da primeira mensagem que atende aos filtros aplicados;
+
+**Data final**: data da última mensagem que atende aos filtros aplicados.
+
+Também é apresentada uma tabela com as mensagens que atendem aos filtros aplicados e um gráfico de barras mostrando a
+quantidade de mensagens por hora.
+
+## Mensagens do sistema
+
+Nesta seção, são apresentadas informações sobre as mensagens do sistema, como alterações de nome de grupo, adições e
+remoções de participantes, entre outras.
+
+## Análise de mensagens por tempo
+
+Nesta seção, são apresentadas informações sobre a quantidade de mensagens enviadas por dia. São elas:
+
+**Data inicial**: data da primeira mensagem do arquivo;
+**Data final**: data da última mensagem do arquivo;
+**Gráfico de barras**: Quantidade de mensagens por dia;
+
+## Análise de mensagens por pessoa
+
+Nesta seção, são apresentadas informações sobre a quantidade de mensagens enviadas por pessoa. São elas:
+
+**Total de mensagens**: quantidade total de mensagens enviadas por todas as pessoas;
+**Gráfico de barras**: quantidade de mensagens por pessoa;
+
+## Análise de palavras
+
+Nesta seção, são apresentadas informações sobre as palavras mais utilizadas nas mensagens. São elas:
+
+**Total de palavras**: quantidade total de palavras utilizadas em todas as mensagens;
+**Gráfico de barras**: quantidade de palavras por palavra;
+
+## Word Cloud
+
+Nesta seção, é apresentada uma nuvem de palavras com as palavras mais utilizadas nas mensagens.
+
