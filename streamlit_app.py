@@ -52,7 +52,7 @@ col_first_date.metric("Primeira mensagem", swsl.get_init_date_format("%d/%m/%Y %
 col_end_date.metric("Ultima mensagem", swsl.get_end_date_format("%d/%m/%Y %H:%M:%S"))
 
 # ====================================================================================================
-st.title('Mensagens')
+st.title('Análise de mensagens')
 
 message = st.text_input('Pesquisar texto:', value='')
 numbers = st.multiselect('Pesquisar por contato:', swsl.list_of_numbers)
@@ -78,7 +78,7 @@ df_infos = swsl.rename_column_df(swsl.df_info_messages, {'phone': 'Contato', 'da
 st.dataframe(df_infos, use_container_width=True)
 
 # ====================================================================================================
-st.title('Quantidade de mensagens por dia')
+st.title('Análise de mensagens por dia')
 
 info_dates = swsl.get_info_amount_dates()
 
@@ -109,7 +109,7 @@ st.plotly_chart(figure, use_container_width=True)
 
 # ====================================================================================================
 
-st.title('Quantidade de mensagens por pessoa')
+st.title('Análise de mensagens por pessoa')
 st.subheader('Total de numeros de telefone: {}'.format(swsl.amount_of_numbers))
 
 df_rating_person = swsl.get_message_rating_by_person()
@@ -118,7 +118,7 @@ c = px.bar(df_rating_person, x='Pessoa', y='Quantidade de mensagens')
 st.plotly_chart(c, use_container_width=True)
 
 # ====================================================================================================
-st.title('Palavras mais utilizadas')
+st.title('Análise de palavras')
 numbers_palavra = st.multiselect('Pesquisar por contato: ', swsl.list_of_numbers)
 message_palavra = st.text_input('Pesquisar palavra:', value='')
 
@@ -141,3 +141,5 @@ wordcloud = swsl.generate_word_cloud(swsl.df_messages, "message")
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")
 st.pyplot()
+
+# ====================================================================================================
