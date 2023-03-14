@@ -2,7 +2,7 @@ import plotly.express as px
 import streamlit as st
 from matplotlib import pyplot as plt
 
-from src.stream_lit import SearchWhatsappStreamlit
+from src.search_whatsapp_streamlit import SearchWhatsappStreamlit
 
 st.set_page_config(page_title='WhatsApp Analyzer',
                    page_icon='📊',
