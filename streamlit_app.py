@@ -15,10 +15,13 @@ st.title('WhatsApp Analyzer')
 st.markdown('''
 Projeto desenvolvido para analise de dados do WhatsApp
 
+#### Desenvolvido por: Erickson Lopes
 
-### Desenvolvido por:
-> - [![GitHub](https://img.shields.io/badge/-Erickson%20Lopes-181717?&logo=GitHub&logoColor=FFFFFF)](https://github.com/ericksonlopes/)
-[![Linkedin](https://img.shields.io/badge/-Erickson%20Lopes-0A66C2?&logo=Linkedin&logoColor=FFFFFF)](https://www.linkedin.com/in/ericksonlopes/)
+Contato: 
+
+[![GitHub](https://img.shields.io/badge/-GitHub-181717?&logo=GitHub&logoColor=FFFFFF)](https://github.com/ericksonlopes/)
+[![Linkedin](https://img.shields.io/badge/-LinkedIn-0A66C2?&logo=Linkedin&logoColor=FFFFFF)](https://www.linkedin.com/in/ericksonlopes/)
+[![Medium](https://img.shields.io/badge/-Medium-000000?&logo=Medium&logoColor=FFFFFF)](https://medium.com/@ericksonlopes)
 
 ### Tecnologias utilizadas:
 
@@ -71,11 +74,12 @@ st.plotly_chart(figure, use_container_width=True)
 # ====================================================================================================
 st.title('Mensagens do sistema')
 
-df_rename_if = swsl.df_info_messages.rename(columns={'phone': 'Contato', 'date': 'Data', 'message': 'Mensagem'})
-st.dataframe(df_rename_if, use_container_width=True)
+df_infos = swsl.rename_column_df(swsl.df_info_messages, {'phone': 'Contato', 'date': 'Data', 'message': 'Mensagem'})
+st.dataframe(df_infos, use_container_width=True)
 
 # ====================================================================================================
 st.title('Quantidade de mensagens por dia')
+
 info_dates = swsl.get_info_amount_dates()
 
 col1, col2, col3 = st.columns(3)
@@ -114,14 +118,25 @@ c = px.bar(df_rating_person, x='Pessoa', y='Quantidade de mensagens')
 st.plotly_chart(c, use_container_width=True)
 
 # ====================================================================================================
+st.title('Palavras mais utilizadas')
+numbers_palavra = st.multiselect('Pesquisar por contato: ', swsl.list_of_numbers)
+message_palavra = st.text_input('Pesquisar palavra:', value='')
+
+df_rating_words = swsl.get_message_rating_by_words(numbers_palavra, message_palavra)
+st.dataframe(df_rating_words, use_container_width=True)
+
+c = px.bar(df_rating_words.head(50), x='Palavra', y='Quantidade')
+st.plotly_chart(c, use_container_width=True)
+
+# ====================================================================================================
 st.title('Word Cloud')
 st.subheader('Palavras mais utilizadas na conversa.')
-
-wordcloud = swsl.generate_word_cloud(swsl.df_messages, 'message')
-
-if wordcloud is None:
-    st.warning('O Grafico esta sendo gerado')
-    st.stop()
+st.markdown(
+    """
+        A nuvem de palavras é uma representação gráfica de palavras que mais aparecem no texto. As palavras mais 
+        utilizadas são as que aparecem com maior tamanho e as que aparecem menos são as que aparecem com menor tamanho
+    """)
+wordcloud = swsl.generate_word_cloud(swsl.df_messages, "message")
 
 plt.imshow(wordcloud, interpolation='bilinear')
 plt.axis("off")

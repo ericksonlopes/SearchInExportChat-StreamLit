@@ -1,21 +1,16 @@
 import re
-import string
 from datetime import datetime
 from typing import Union, List
 
 import pandas as pd
-from nltk.corpus import stopwords
-from nltk.stem import PorterStemmer
-from nltk.tokenize import sent_tokenize
-from nltk.tokenize import word_tokenize
 from pandas import DataFrame
 from streamlit.runtime.uploaded_file_manager import UploadedFile
-from wordcloud import WordCloud
+from wordcloud import WordCloud, STOPWORDS
 
 from src.clear_file import BaseClearDataFile
-from src.helpers.stopwords import STOPWORDS
-from src.views.FilterMessagesViewModel import FilterMessagesViewModel
-from src.views.InforAmountOfDatesViewModel import InforAmountOfDatesViewModel
+from src.helpers.stopwords import STOPWORDS as stopwords_pt
+from src.models.views.FilterMessagesViewModel import FilterMessagesViewModel
+from src.models.views.InforAmountOfDatesViewModel import InforAmountOfDatesViewModel
 
 
 class SearchWhatsappStreamlit(BaseClearDataFile):
@@ -29,49 +24,32 @@ class SearchWhatsappStreamlit(BaseClearDataFile):
     @property
     def df_messages(self) -> DataFrame:
         """
-        :return: DataFrame with all messages
-        :return:
+        :return: DataFrame com todas as mensagens
         """
         return self.__df_messages
 
     @property
     def df_info_messages(self) -> DataFrame:
         """
-        :return: DataFrame with all info messages
+        :return: DataFrame com todas as mensagens de informação
         :return:
         """
         return self.__df_info_messages
 
     @property
     def amount_of_messages(self) -> int:
-        """
-        :return: Amount of messages
-        :return:
-        """
         return len(self.df_messages)
 
     @property
     def amount_of_info_messages(self) -> int:
-        """
-        :return: Amount of info messages
-        :return:
-        """
         return len(self.df_info_messages)
 
     @property
     def amount_of_numbers(self) -> int:
-        """
-        :return: Amount of numbers
-        :return:
-        """
         return len(self.df_messages['phone'].unique())
 
     @property
     def init_date(self) -> datetime:
-        """
-        :return: Initial date
-        :return:
-        """
         return self.df_messages['date'].min()
 
     @property
@@ -81,6 +59,11 @@ class SearchWhatsappStreamlit(BaseClearDataFile):
         :return:
         """
         return self.df_messages['date'].max()
+
+    @classmethod
+    def rename_column_df(cls, df: DataFrame, renames: dict) -> DataFrame:
+        df.rename(columns=renames, inplace=True)
+        return df
 
     def get_init_date_format(self, strftime: str) -> str:
         return self.df_messages['date'].min().strftime(strftime)
@@ -102,7 +85,7 @@ class SearchWhatsappStreamlit(BaseClearDataFile):
     def get_contains_isin_message(self, message: List[str]) -> DataFrame:
         return self.df_messages[self.df_messages['message'].isin(message)]
 
-    def filter_messages(self, message: str, numbers: int, init_date: datetime,
+    def filter_messages(self, message: str, numbers, init_date: datetime,
                         end_date: datetime) -> FilterMessagesViewModel:
         """
         Este método retorna um objeto com informações sobre a quantidade de mensagens por tempo(Em geral, por dia)
@@ -203,62 +186,77 @@ class SearchWhatsappStreamlit(BaseClearDataFile):
 
         df_data.rename(columns={'phone': 'Pessoa', 'message': 'Quantidade de mensagens'}, inplace=True)
 
-        df_data = df_data.sort_values(by='Quantidade de mensagens', ascending=True)
+        df_data = df_data.sort_values(by='Quantidade de mensagens', ascending=False)
         return df_data
 
-    @classmethod
-    def generate_word_cloud(cls, df: DataFrame, column: str) -> WordCloud:
+    def generate_word_cloud(self, df: DataFrame, column: str) -> WordCloud:
         text_list = df[column].tolist()
 
-        text_list = [str(text).lower() for text in text_list if
-                     text.lower() not in ["<arquivo de mídia oculto>", "mensagem apagada"]]
-
-        text_list = [text.split() for text in text_list]
-
-        text_list = [item for sublist in text_list for item in sublist]
-
-        text_list = [text for text in text_list if text not in STOPWORDS]
-
-        text = ' '.join(text_list)
-
-        text = re.sub(r'[^\w\s]', '', text)
-        text = re.sub(r'k{3,}', '', text)
-
+        text = self.clean_text(text_list)
+        text = " ".join(text)
         wordcloud = WordCloud(background_color='white', width=3000, height=1000).generate(text)
 
         return wordcloud
 
     @classmethod
-    def clean_text(cls, text):
-        default_stemmer = PorterStemmer()
-        default_stopwords = stopwords.words('portuguese')  # or any other list of your choice
+    def clean_text(cls, text_list: List[str]) -> List[str]:
+        def remove_links(text_list: List[str]) -> List[str]:
+            regex_links = re.compile(r'http[s]?://(?:[a-zA-Z]|[0-9]|[$-_@.&+]|[!*\(\),]|(?:%[0-9a-fA-F][0-9a-fA-F]))+')
+            text_list = [regex_links.sub('', text) for text in text_list]
+            return text_list
 
-        def tokenize_text(text_tokenize: str):
-            return [w for s in sent_tokenize(text_tokenize) for w in word_tokenize(s)]
+        def remove_stopwords(text_list: List[str]) -> List[str]:
+            stopwords = STOPWORDS
+            stopwords.update(stopwords_pt)
+            text_list = [text for text in text_list if text not in stopwords]  # remove stopwords
 
-        def remove_special_characters(text_remove_especial, characters=string.punctuation.replace('-', '')):
-            tokens = tokenize_text(text_remove_especial)
-            pattern = re.compile('[{}]'.format(re.escape(characters)))
-            return ' '.join(filter(None, [pattern.sub('', t) for t in tokens]))
+            return text_list
 
-        def stem_text(text_stem, stemmer=default_stemmer):
-            tokens = tokenize_text(text_stem)
-            return ' '.join([stemmer.stem(t) for t in tokens])
+        def remove_repeat_word_and_apply_regex(text: str) -> str:
+            text = re.sub(r'[^\w\s]', '', text)  # remove pontuação
+            text = re.sub(r'k{2,}', '', text)  # remove palavras com mais de 2 k
+            text = re.sub(r'ha{2,}', '', text)  # remove palavras com mais de ha k
 
-        def remove_stopwords(text_remove_stopwords, stop_words=default_stopwords):
-            tokens = [w for w in tokenize_text(text_remove_stopwords) if w not in stop_words]
-            return ' '.join(tokens)
+            return text
 
-        text = text.strip(' ')  # strip whitespaces
-        text = text.lower()  # lowercase
-        text = stem_text(text)  # stemming
-        text = remove_special_characters(text)  # remove punctuation and symbols
-        text = remove_stopwords(text)  # remove stopwords
-        # text.strip(' ') # strip whitespaces again?
+        text_list = [str(text).lower() for text in text_list if
+                     text.lower() not in ["<arquivo de mídia oculto>", "mensagem apagada"]]
 
-        return text
+        text_list = [text.split() for text in text_list]
+        text_list = [item for sublist in text_list for item in sublist]
 
-    @classmethod
-    def rename_column_data_frame(cls, df: DataFrame, renames: dict) -> DataFrame:
-        df.rename(columns=renames, inplace=True)
-        return df
+        text_list = remove_links(text_list)  # remove links
+        text_list = remove_stopwords(text_list)  # remove stopwords
+
+        text = ' '.join(text_list)
+
+        text = remove_repeat_word_and_apply_regex(text)
+
+        text_list = text.split()
+        return text_list
+
+    def get_message_rating_by_words(self, numbers: List[str], message: str) -> DataFrame:
+        """
+        Este método retorna um dataframe com a quantidade de mensagens por palavra
+        :return:
+        """
+        df_filter = self.df_messages
+
+        if numbers:
+            df_filter = df_filter[df_filter['phone'].isin(numbers)]
+
+
+        text_list = df_filter['message'].tolist()
+
+        test_list = self.clean_text(text_list)
+
+        df_data = pd.DataFrame(test_list, columns=['message'])
+
+        if message:
+            df_data = df_data[df_data['message'].str.contains(message)]
+
+        df_data = df_data['message'].value_counts().reset_index()
+
+        df_data.rename(columns={'index': 'Palavra', 'message': 'Quantidade'}, inplace=True)
+
+        return df_data
