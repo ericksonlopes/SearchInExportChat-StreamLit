@@ -34,7 +34,10 @@ Erickson Lopes:
 
 st.write('Para utilizar a aplicação, é necessário fazer o upload de um arquivo de texto contendo o histórico de '
          'mensagens do WhatsApp. Para isso, clique no botão "Escolha o arquivo para análise de dados" e selecione'
-         ' o arquivo desejado.')
+         ' o arquivo desejado. ')
+
+st.write("Infelizmente, a aplicação só funciona com arquivos exportados de aparelhos Android e em PT-BR.")
+
 data = st.file_uploader('Escolha o arquivo para analise de dados', type=['txt'])
 
 if data is None:
