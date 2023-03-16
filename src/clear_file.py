@@ -8,7 +8,7 @@ from src.models import MessageModel, InfoMessageModel
 
 
 class BaseClearDataFile:
-    def __init__(self, file_data):
+    def __init__(self, file_data: List[str]):
         super().__init__()
 
         self.__messages: List[MessageModel] = []
